@@ -44,14 +44,14 @@ class Product_Gallery_Slider {
             'pgs-style',
             plugin_dir_url( __FILE__ ) . 'assets/css/style.css',
             [],
-            '1.3.0'
+            '1.3.3'
         );
 
         wp_enqueue_script(
             'pgs-script',
             plugin_dir_url( __FILE__ ) . 'assets/js/main.js',
             [],
-            '1.3.0',
+            '1.3.1',
             true
         );
     }

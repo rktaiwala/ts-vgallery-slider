@@ -3,8 +3,9 @@
  */
 
 /* --- General Wrapper --- */
+
 .pgs-gallery-wrapper {
-    max-width: 56rem; /* 896px */
+    
     margin-left: auto;
     margin-right: auto;
 }
@@ -12,13 +13,10 @@
 .pgs-gallery-container {
     position: relative;
     width: 100%;
-    height: 70vh;
-    max-height: 600px;
-    background-color: #ffffff;
-    border-radius: 1rem; /* 16px */
     
+    background-color: #ffffff;
     overflow: hidden;
-    border: 4px solid white;
+
 }
 
 /* --- Image Stack / Carousel --- */
@@ -26,6 +24,9 @@
     width: 100%;
     height: 100%;
     scrollbar-width: none; /* Firefox */
+    position: relative;
+    display: flex;
+    scroll-snap-type: x mandatory;
 }
 .pgs-image-stack::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera */
@@ -33,7 +34,7 @@
 
 .pgs-image-container {
     width: 100%;
-    height: 100%;
+
     position: relative;
     overflow: hidden;
 }
@@ -46,9 +47,20 @@
 
 /* --- Desktop Specific Styles --- */
 @media (min-width: 768px) {
+    .pgs-gallery-wrapper {
+    position: sticky;
+    top: 66px;
+    }
+    .pgs-gallery-container {
+        
+        height: calc(100vh - 65px);
+       
+    
+    }
     .pgs-image-stack {
         overflow-y: scroll;
         scroll-behavior: smooth;
+        flex-wrap: wrap;
     }
 
     .pgs-image-to-zoom {
@@ -60,6 +72,13 @@
     .pgs-image-to-zoom.zoomed {
         transform: scale(2);
         cursor: crosshair;
+    }
+    .pgs-image-stack > .pgs-image-container:first-of-type,.pgs-image-stack > .pgs-image-container:nth-of-type(2),.pgs-image-stack > .pgs-image-container:nth-of-type(4),.pgs-image-stack > .pgs-image-container:nth-of-type(5),.pgs-image-stack > .pgs-image-container:nth-of-type(7),.pgs-image-stack > .pgs-image-container:nth-of-type(8) {
+        min-width:calc(50% - .8rem);
+        width:calc(50% - .8rem);
+        flex-grow: 1;
+        flex-shrink: 1;
+        flex-basis: calc(50% - 0.8rem);
     }
 }
 

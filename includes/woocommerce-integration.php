@@ -36,7 +36,7 @@ class PGS_WooCommerce_Integration {
                 'pgs-wc-script',
                 plugin_dir_url( __DIR__ ) . 'assets/js/woocommerce.js',
                 [ 'pgs-script', 'jquery' ],
-                '1.2.0',
+                '1.2.1',
                 true
             );
 
@@ -53,7 +53,7 @@ class PGS_WooCommerce_Integration {
     public function render_product_gallery_for_hook() {
         global $product;
         $images = $this->get_product_gallery_images( $product );
-        Product_Gallery_Slider::instance()->render_gallery_html( $images, 'pgs-wc-gallery' );
+        Product_Gallery_Slider::instance()->render_gallery_html( $images );
     }
 
     public function render_gallery_shortcode() {
@@ -63,7 +63,7 @@ class PGS_WooCommerce_Integration {
         }
         $images = $this->get_product_gallery_images( $product );
         ob_start();
-        Product_Gallery_Slider::instance()->render_gallery_html( $images, 'pgs-wc-gallery' );
+        Product_Gallery_Slider::instance()->render_gallery_html( $images );
         return ob_get_clean();
     }
 
@@ -98,7 +98,14 @@ class PGS_WooCommerce_Integration {
             if ( ! empty( $attachment_ids ) ) {
                 foreach ( $attachment_ids as $id ) $images[] = [ 'url' => wp_get_attachment_image_url( $id, 'large' ), 'alt' => get_the_title( $id ) ];
             }
-            $variation_data[ $variation['variation_id'] ] = $images;
+             /**
+             * Filter the gallery images for a specific product variation.
+             *
+             * @param array $images The array of image data ([ 'url' => '', 'alt' => '' ]).
+             * @param WC_Product_Variation $variation_obj The variation product object.
+             * @param WC_Product $product The main product object.
+             */
+            $variation_data[ $variation['variation_id'] ] = apply_filters( 'pgs_variation_gallery_images', $images, $variation_obj,$variation['variation_id'], $product );
         }
         return $variation_data;
     }
